@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生产建设项目水土保持视频监控平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #409EFF;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+        
+        .nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        
+        .nav li {
+            margin: 15px 15px;
+        }
+        
+        .nav a {
+            text-decoration: none;
+            color: #666;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav a.active {
+            background-color: #409EFF;
+            color: white;
+        }
+        
+        .nav a:hover:not(.active) {
+            background-color: #f0f7ff;
+            color: #409EFF;
+        }
+        
+        .content {
+            display: none;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 400px;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .content-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .content-actions button {
+            background-color: #409EFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+        
+        .content-actions button:hover {
+            background-color: #66b1ff;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .table th, .table td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #ebeef5;
+        }
+        
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+            color: #909399;
+        }
+        
+        .table tr:hover {
+            background-color: #f5f7fa;
+        }
+        
+        .map-container {
+            height: 300px;
+            background-color: #eee;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            background-color: #409EFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #66b1ff;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid #409EFF;
+            color: #409EFF;
+        }
+        
+        .btn-outline:hover {
+            background-color: #409EFF;
+            color: white;
+        }
+        
+        .report-preview {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .report-preview h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .report-preview p {
+            margin-bottom: 5px;
+            color: #666;
+        }
+        
+        .project-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .project-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .project-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .project-info-item {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .indicator-item {
+            border: 1px solid #eee;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        
+        .indicator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        
+        .indicator-content {
+            display: none;
+        }
+        
+        .indicator-content.active {
+            display: block;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .collapse-icon {
+            transform: rotate(0deg);
+            transition: transform 0.3s;
+        }
+        
+        .collapse-icon.active {
+            transform: rotate(90deg);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>生产建设项目水土保持视频监控平台</h1>
+    </header>
+    
+    <div class="container">
+        <nav class="nav">
+            <ul>
+                <li><a href="#" class="nav-link active" data-content="project-management">项目管理</a></li>
+                <li><a href="#" class="nav-link" data-content="map-display">图上展示</a></li>
+                <li><a href="#" class="nav-link" data-content="monitor-points">监测点位</a></li>
+                <li><a href="#" class="nav-link" data-content="video-points">视频点位</a></li>
+                <li><a href="#" class="nav-link" data-content="monitor-indicators">监测指标</a></li>
+                <li><a href="#" class="nav-link" data-content="monitor-reports">监测报告</a></li>
+            </ul>
+        </nav>
+        
+        <!-- 项目管理 -->
+        <div id="project-management" class="content active">
+            <div class="content-header">
+                <h2 class="content-title">项目管理</h2>
+                <div class="content-actions">
+                    <button class="btn"><i class="fas fa-plus"></i> 新增项目</button>
+                    <button class="btn btn-outline"><i class="fas fa-search"></i> 搜索</button>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="project-search">项目名称</label>
+                    <input type="text" id="project-search" class="form-control" placeholder="请输入项目名称">
+                </div>
+                <div class="form-group">
+                    <label for="constructor-search">建设单位</label>
+                    <input type="text" id="constructor-search" class="form-control" placeholder="请输入建设单位">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>项目列表</label>
+                <div class="project-list">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-name">城市新区基础设施建设项目</div>
+                            <div class="project-status">进行中</div>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-info-item">方案批复时间: 2023-01-15</div>
+                            <div class="project-info-item">监测时段: 2023-01-15 至 2024-01-15</div>
+                            <div class="project-info-item">建设单位: XX建设集团有限公司</div>
+                            <div class="project-info-item">联系人: 张三</div>
+                            <div class="project-info-item">联系电话: 138****6789</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-name">高速公路建设项目</div>
+                            <div class="project-status">已完工</div>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-info-item">方案批复时间: 2022-05-20</div>
+                            <div class="project-info-item">监测时段: 2022-05-20 至 2023-05-20</div>
+                            <div class="project-info-item">建设单位: XX交通建设集团</div>
+                            <div class="project-info-item">联系人: 李四</div>
+                            <div class="project-info-item">联系电话: 139****5678</div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-name">大型风电建设项目</div>
+                            <div class="project-status">进行中</div>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-info-item">方案批复时间: 2023-03-10</div>
+                            <div class="project-info-item">监测时段: 2023-03-10 至 2025-03-10</div>
+                            <div class="project-info-item">建设单位: XX新能源有限公司</div>
+                            <div class="project-info-item">联系人: 王五</div>
+                            <div class="project-info-item">联系电话: 137****4321</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 图上展示 -->
+        <div id="map-display" class="content">
+            <div class="content-header">
+                <h2 class="content-title">图上展示</h2>
+                <div class="content-actions">
+                    <button class="btn"><i class="fas fa-sync-alt"></i> 刷新地图</button>
+                    <button class="btn btn-outline"><i class="fas fa-download"></i> 导出地图</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>地图操作</label>
+                <div class="btn-group">
+                    <button class="btn"><i class="fas fa-search-plus"></i> 放大</button>
+                    <button class="btn"><i class="fas fa-search-minus"></i> 缩小</button>
+                    <button class="btn"><i class="fas fa-map-marker-alt"></i> 定位</button>
+                    <button class="btn"><i class="fas fa-layer-group"></i> 图层</button>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <i class="fas fa-map-marked-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                <p>所有项目卫星地图展示区域</p>
+                <p style="font-size: 12px; color: #999;">提示：地图上不同颜色标记代表不同项目，点击可查看详情</p>
+            </div>
+        </div>
+        
+        <!-- 监测点位 -->
+        <div id="monitor-points" class="content">
+            <div class="content-header">
+                <h2 class="content-title">城市新区基础设施建设项目 - 监测点位</h2>
+                <div class="content-actions">
+                    <button class="btn"><i class="fas fa-plus"></i> 添加点位</button>
+                    <button class="btn btn-outline"><i class="fas fa-filter"></i> 筛选</button>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <i class="fas fa-map-marked-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                <p>监测点位地图展示区域</p>
+                <p style="font-size: 12px; color: #999;">提示：地图上绿色标记为监测点位，点击可查看详情</p>
+            </div>
+            
+            <div class="form-group">
+                <label>监测点位列表</label>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>点位名称</th>
+                            <th>监测对象</th>
+                            <th>监测指标</th>
+                            <th>点位照片</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>监测点1</td>
+                            <td>坡面</td>
+                            <td>泥沙含量、降雨量</td>
+                            <td><img src="https://via.placeholder.com/50" alt="点位照片" style="width: 50px; height: 30px;"></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 查看</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-edit"></i> 编辑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监测点2</td>
+                            <td>沟道</td>
+                            <td>径流量、含沙量</td>
+                            <td><img src="https://via.placeholder.com/50" alt="点位照片" style="width: 50px; height: 30px;"></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 查看</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-edit"></i> 编辑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>监测点3</td>
+                            <td>弃渣场</td>
+                            <td>渣土量、防护情况</td>
+                            <td><img src="https://via.placeholder.com/50" alt="点位照片" style="width: 50px; height: 30px;"></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 查看</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-edit"></i> 编辑</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 视频点位 -->
+        <div id="video-points" class="content">
+            <div class="content-header">
+                <h2 class="content-title">城市新区基础设施建设项目 - 视频点位</h2>
+                <div class="content-actions">
+                    <button class="btn"><i class="fas fa-plus"></i> 添加摄像头</button>
+                    <button class="btn btn-outline"><i class="fas fa-redo"></i> 刷新视频</button>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <i class="fas fa-video" style="font-size: 40px; margin-bottom: 10px;"></i>
+                <p>视频监控点位地图展示区域</p>
+                <p style="font-size: 12px; color: #999;">提示：地图上蓝色标记为视频监控点位，点击可查看实时视频</p>
+            </div>
+            
+            <div class="form-group">
+                <label>视频监控列表</label>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>摄像头名称</th>
+                            <th>安装位置</th>
+                            <th>监控区域</th>
+                            <th>视频预览</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>摄像头1</td>
+                            <td>项目入口</td>
+                            <td>施工主区域</td>
+                            <td><div style="width: 80px; height: 45px; background-color: #eee; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd;">视频预览</div></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-play"></i> 实时查看</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-download"></i> 录像</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>摄像头2</td>
+                            <td>渣土堆放区</td>
+                            <td>渣土堆放场</td>
+                            <td><div style="width: 80px; height: 45px; background-color: #eee; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd;">视频预览</div></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-play"></i> 实时查看</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-download"></i> 录像</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>摄像头3</td>
+                            <td>材料堆放区</td>
+                            <td>材料堆放场</td>
+                            <td><div style="width: 80px; height: 45px; background-color: #eee; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd;">视频预览</div></td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-play"></i> 实时查看</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-download"></i> 录像</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 监测指标 -->
+        <div id="monitor-indicators" class="content">
+            <div class="content-header">
+                <h2 class="content-title">城市新区基础设施建设项目 - 监测指标</h2>
+                <div class="content-actions">
+                    <button class="btn"><i class="fas fa-sync-alt"></i> 刷新数据</button>
+                    <button class="btn btn-outline"><i class="fas fa-file-export"></i> 导出数据</button>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="period-select">监测期数</label>
+                    <select id="period-select" class="form-control">
+                        <option>2023年第三季度</option>
+                        <option>2023年第二季度</option>
+                        <option>2023年第一季度</option>
+                        <option>2022年第四季度</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="indicator-search">指标搜索</label>
+                    <input type="text" id="indicator-search" class="form-control" placeholder="请输入指标名称">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>监测指标</label>
+                <div class="indicator-list">
+                    <div class="indicator-item">
+                        <div class="indicator-header">
+                            <span>2023年第三季度监测指标</span>
+                            <i class="fas fa-chevron-down collapse-icon active"></i>
+                        </div>
+                        <div class="indicator-content active">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="responsibility-area">防治责任范围</label>
+                                    <input type="text" id="responsibility-area" class="form-control" value="500公顷">
+                                </div>
+                                <div class="form-group">
+                                    <label for="disturbed-land">扰动土地情况</label>
+                                    <input type="text" id="disturbed-land" class="form-control" value="已扰动200公顷，新增10公顷">
+                                </div>
+                                <div class="form-group">
+                                    <label for="erosion-area">水土流失面积</label>
+                                    <input type="text" id="erosion-area" class="form-control" value="15公顷">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="erosion-amount">水土流失量</label>
+                                    <input type="text" id="erosion-amount" class="form-control" value="500吨">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vegetation-coverage">植被覆盖率</label>
+                                    <input type="text" id="vegetation-coverage" class="form-control" value="30%">
+                                </div>
+                                <div class="form-group">
+                                    <label for="conservation-measures">水土保持措施</label>
+                                    <input type="text" id="conservation-measures" class="form-control" value="梯田50亩，拦渣坝3座">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="soil-protection-rate">表土保护率</label>
+                                    <input type="text" id="soil-protection-rate" class="form-control" value="85%">
+                                </div>
+                                <div class="form-group">
+                                    <label for="slag-protection-rate">渣土防护率</label>
+                                    <input type="text" id="slag-protection-rate" class="form-control" value="92%">
+                                </div>
+                                <div class="form-group">
+                                    <label for="erosion-control-degree">水土流失控制度</label>
+                                    <input type="text" id="erosion-control-degree" class="form-control" value="0.8">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>三色评价</label>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>评价指标</th>
+                                            <th>评价标准</th>
+                                            <th>实际值</th>
+                                            <th>评价结果</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>水土流失治理度</td>
+                                            <td>≥95%为绿色</td>
+                                            <td>93%</td>
+                                            <td><span style="color: #FF9800">黄色</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>土壤流失控制比</td>
+                                            <td>≤1.0为绿色</td>
+                                            <td>0.8</td>
+                                            <td><span style="color: #4CAF50">绿色</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>林草植被恢复率</td>
+                                            <td>≥95%为绿色</td>
+                                            <td>90%</td>
+                                            <td><span style="color: #FF9800">黄色</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="indicator-item">
+                        <div class="indicator-header">
+                            <span>2023年第二季度监测指标</span>
+                            <i class="fas fa-chevron-down collapse-icon"></i>
+                        </div>
+                        <div class="indicator-content">
+                            <!-- 2023年第二季度指标数据 -->
+                            <p style="padding: 10px; color: #999;">点击展开查看详细指标</p>
+                        </div>
+                    </div>
+                    
+                    <div class="indicator-item">
+                        <div class="indicator-header">
+                            <span>2023年第一季度监测指标</span>
+                            <i class="fas fa-chevron-down collapse-icon"></i>
+                        </div>
+                        <div class="indicator-content">
+                            <!-- 2023年第一季度指标数据 -->
+                            <p style="padding: 10px; color: #999;">点击展开查看详细指标</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>新增监测指标</label>
+                <button class="btn">添加新监测期数</button>
+            </div>
+        </div>
+        
+        <!-- 监测报告 -->
+        <div id="monitor-reports" class="content">
+            <div class="content-header">
+                <h2 class="content-title">城市新区基础设施建设项目 - 监测报告</h2>
+                <div class="content-actions">
+                    <button class="btn"><i class="fas fa-file-alt"></i> 生成报告</button>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="report-period">报告周期</label>
+                    <select id="report-period" class="form-control">
+                        <option>2023年第三季度</option>
+                        <option>2023年第二季度</option>
+                        <option>2023年第一季度</option>
+                        <option>2022年第四季度</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="report-type">报告类型</label>
+                    <select id="report-type" class="form-control">
+                        <option selected>季度报告</option>
+                        <option>月度报告</option>
+                        <option>年度报告</option>
+                        <option>专项报告</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>报告列表</label>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>报告名称</th>
+                            <th>报告周期</th>
+                            <th>编制日期</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>城市新区基础设施建设项目2023年第三季度水土保持监测报告</td>
+                            <td>2023年第三季度</td>
+                            <td>2023-10-15</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 预览</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-print"></i> 打印</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-share-alt"></i> 分享</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-upload"></i> 上报</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>城市新区基础设施建设项目2023年第二季度水土保持监测报告</td>
+                            <td>2023年第二季度</td>
+                            <td>2023-07-20</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 预览</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-print"></i> 打印</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-share-alt"></i> 分享</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-upload"></i> 上报</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>城市新区基础设施建设项目2023年第一季度水土保持监测报告</td>
+                            <td>2023年第一季度</td>
+                            <td>2023-04-10</td>
+                            <td>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 预览</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-print"></i> 打印</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-share-alt"></i> 分享</button>
+                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-upload"></i> 上报</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="report-preview">
+                <h3>监测报告预览</h3>
+                <p><strong>报告标题：</strong> 城市新区基础设施建设项目2023年第三季度水土保持监测报告</p>
+                <p><strong>报告编号：</strong> WTBC-2023-03</p>
+                <p><strong>编制单位：</strong> XX环境科技有限公司</p>
+                <p><strong>编制日期：</strong> 2023年10月15日</p>
+                <p><strong>主要内容：</strong> 本报告涵盖了项目基本信息、监测点位概况、各项监测指标的分析评价、存在问题及整改情况、三色评价结果等内容，全面反映项目的水土保持状况。</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>生产建设项目水土保持视频监控平台 © 2023 版权所有</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 导航切换
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有active类
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+                    
+                    // 为当前点击的链接和对应内容添加active类
+                    this.classList.add('active');
+                    const contentId = this.getAttribute('data-content');
+                    document.getElementById(contentId).classList.add('active');
+                });
+            });
+            
+            // 项目卡片点击事件
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // 这里可以添加跳转到项目详情页面的逻辑
+                    alert('跳转到项目详情页面');
+                });
+            });
+            
+            // 指标折叠展开
+            const indicatorHeaders = document.querySelectorAll('.indicator-header');
+            indicatorHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('.collapse-icon');
+                    
+                    if (content.classList.contains('active')) {
+                        content.classList.remove('active');
+                        icon.classList.remove('active');
+                    } else {
+                        // 关闭其他活动的指标内容
+                        document.querySelectorAll('.indicator-content.active').forEach(item => {
+                            item.classList.remove('active');
+                            item.previousElementSibling.querySelector('.collapse-icon').classList.remove('active');
+                        });
+                        
+                        content.classList.add('active');
+                        icon.classList.add('active');
+                    }
+                });
+            });
+            
+            // 模拟生成报告按钮点击事件
+            const generateReportBtn = document.querySelector('#monitor-reports .content-actions button');
+            if (generateReportBtn) {
+                generateReportBtn.addEventListener('click', function() {
+                    alert('监测报告已生成！');
+                });
+            }
+            
+            // 模拟报告操作按钮点击事件
+            const reportActionBtns = document.querySelectorAll('#monitor-reports .btn-outline');
+            reportActionBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const action = this.querySelector('i').className;
+                    let message = '';
+                    switch(action) {
+                        case 'fas fa-eye':
+                            message = '报告预览页面已打开';
+                            break;
+                        case 'fas fa-print':
+                            message = '报告已发送到打印机';
+                            break;
+                        case 'fas fa-share-alt':
+                            message = '报告已分享';
+                            break;
+                        case 'fas fa-upload':
+                            message = '报告已上报至全国水土保持信息管理系统';
+                            break;
+                    }
+                    alert(message);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
