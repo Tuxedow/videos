@@ -24,13 +24,12 @@
         }
         
         header {
-            background-color: #409EFF;
+            background-color: #6a5acd;
             color: white;
             padding: 15px 0;
             text-align: center;
             margin-bottom: 20px;
             border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
         h1 {
@@ -67,13 +66,12 @@
         }
         
         .nav a.active {
-            background-color: #409EFF;
-            color: white;
+            background-color: #e0e0e0;
+            color: #444;
         }
         
         .nav a:hover:not(.active) {
-            background-color: #f0f7ff;
-            color: #409EFF;
+            background-color: #f0f0f0;
         }
         
         .content {
@@ -83,7 +81,6 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             padding: 20px;
             margin-bottom: 20px;
-            min-height: 400px;
         }
         
         .content.active {
@@ -106,7 +103,7 @@
         }
         
         .content-actions button {
-            background-color: #409EFF;
+            background-color: #6a5acd;
             color: white;
             border: none;
             border-radius: 4px;
@@ -117,7 +114,7 @@
         }
         
         .content-actions button:hover {
-            background-color: #66b1ff;
+            background-color: #7a6cc0;
         }
         
         .form-group {
@@ -189,7 +186,7 @@
         }
         
         .btn {
-            background-color: #409EFF;
+            background-color: #6a5acd;
             color: white;
             border: none;
             border-radius: 4px;
@@ -199,17 +196,17 @@
         }
         
         .btn:hover {
-            background-color: #66b1ff;
+            background-color: #7a6cc0;
         }
         
         .btn-outline {
             background-color: transparent;
-            border: 1px solid #409EFF;
-            color: #409EFF;
+            border: 1px solid #6a5acd;
+            color: #6a5acd;
         }
         
         .btn-outline:hover {
-            background-color: #409EFF;
+            background-color: #6a5acd;
             color: white;
         }
         
@@ -236,13 +233,6 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             padding: 15px;
             margin-bottom: 15px;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .project-header {
@@ -306,6 +296,37 @@
         .collapse-icon.active {
             transform: rotate(90deg);
         }
+        
+        .tab-container {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tabs {
+            display: flex;
+            list-style: none;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background-color: #f8f9fa;
+            color: #6a5acd;
+            font-weight: 500;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -317,236 +338,250 @@
     <div class="container">
         <nav class="nav">
             <ul>
-                <li><a href="#" class="nav-link active" data-content="project-management">项目管理</a></li>
-                <li><a href="#" class="nav-link" data-content="map-display">图上展示</a></li>
-                <li><a href="#" class="nav-link" data-content="monitor-points">监测点位</a></li>
-                <li><a href="#" class="nav-link" data-content="video-points">视频点位</a></li>
+                <li><a href="#" class="nav-link active" data-content="project-map">项目管理与地图</a></li>
+                <li><a href="#" class="nav-link" data-content="monitor-video">监测与视频点位</a></li>
                 <li><a href="#" class="nav-link" data-content="monitor-indicators">监测指标</a></li>
                 <li><a href="#" class="nav-link" data-content="monitor-reports">监测报告</a></li>
             </ul>
         </nav>
         
-        <!-- 项目管理 -->
-        <div id="project-management" class="content active">
+        <!-- 项目管理与地图展示 -->
+        <div id="project-map" class="content active">
             <div class="content-header">
-                <h2 class="content-title">项目管理</h2>
+                <h2 class="content-title">项目管理与地图展示</h2>
                 <div class="content-actions">
                     <button class="btn"><i class="fas fa-plus"></i> 新增项目</button>
-                    <button class="btn btn-outline"><i class="fas fa-search"></i> 搜索</button>
+                    <button class="btn btn-outline"><i class="fas fa-search"></i> 搜索项目</button>
                 </div>
             </div>
             
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="project-search">项目名称</label>
-                    <input type="text" id="project-search" class="form-control" placeholder="请输入项目名称">
-                </div>
-                <div class="form-group">
-                    <label for="constructor-search">建设单位</label>
-                    <input type="text" id="constructor-search" class="form-control" placeholder="请输入建设单位">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>项目列表</label>
-                <div class="project-list">
-                    <div class="project-card">
-                        <div class="project-header">
-                            <div class="project-name">城市新区基础设施建设项目</div>
-                            <div class="project-status">进行中</div>
+            <div class="tab-container">
+                <ul class="tabs">
+                    <li class="tab active" data-tab="project-list">项目列表</li>
+                    <li class="tab" data-tab="map-view">地图视图</li>
+                </ul>
+                
+                <div class="tab-content active" id="project-list">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="project-search">项目名称</label>
+                            <input type="text" id="project-search" class="form-control" placeholder="请输入项目名称">
                         </div>
-                        <div class="project-info">
-                            <div class="project-info-item">方案批复时间: 2023-01-15</div>
-                            <div class="project-info-item">监测时段: 2023-01-15 至 2024-01-15</div>
-                            <div class="project-info-item">建设单位: XX建设集团有限公司</div>
-                            <div class="project-info-item">联系人: 张三</div>
-                            <div class="project-info-item">联系电话: 138****6789</div>
+                        <div class="form-group">
+                            <label for="constructor-search">建设单位</label>
+                            <input type="text" id="constructor-search" class="form-control" placeholder="请输入建设单位">
                         </div>
                     </div>
                     
-                    <div class="project-card">
-                        <div class="project-header">
-                            <div class="project-name">高速公路建设项目</div>
-                            <div class="project-status">已完工</div>
+                    <div class="form-group">
+                        <label>项目列表</label>
+                        <div class="project-list">
+                            <div class="project-card">
+                                <div class="project-header">
+                                    <div class="project-name">城市新区基础设施建设项目</div>
+                                </div>
+                                <div class="project-info">
+                                    <div class="project-info-item">方案批复时间: 2023-01-15</div>
+                                    <div class="project-info-item">监测时段: 2023-01-15 至 2024-01-15</div>
+                                    <div class="project-info-item">建设单位: XX建设集团有限公司</div>
+                                    <div class="project-info-item">联系人: 张三</div>
+                                    <div class="project-info-item">联系电话: 138****6789</div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card">
+                                <div class="project-header">
+                                    <div class="project-name">高速公路建设项目</div>
+                                </div>
+                                <div class="project-info">
+                                    <div class="project-info-item">方案批复时间: 2022-05-20</div>
+                                    <div class="project-info-item">监测时段: 2022-05-20 至 2023-05-20</div>
+                                    <div class="project-info-item">建设单位: XX交通建设集团</div>
+                                    <div class="project-info-item">联系人: 李四</div>
+                                    <div class="project-info-item">联系电话: 139****5678</div>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card">
+                                <div class="project-header">
+                                    <div class="project-name">大型风电建设项目</div>
+                                </div>
+                                <div class="project-info">
+                                    <div class="project-info-item">方案批复时间: 2023-03-10</div>
+                                    <div class="project-info-item">监测时段: 2023-03-10 至 2025-03-10</div>
+                                    <div class="project-info-item">建设单位: XX新能源有限公司</div>
+                                    <div class="project-info-item">联系人: 王五</div>
+                                    <div class="project-info-item">联系电话: 137****4321</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="project-info">
-                            <div class="project-info-item">方案批复时间: 2022-05-20</div>
-                            <div class="project-info-item">监测时段: 2022-05-20 至 2023-05-20</div>
-                            <div class="project-info-item">建设单位: XX交通建设集团</div>
-                            <div class="project-info-item">联系人: 李四</div>
-                            <div class="project-info-item">联系电话: 139****5678</div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="map-view">
+                    <div class="form-group">
+                        <label>地图操作</label>
+                        <div class="btn-group">
+                            <button class="btn"><i class="fas fa-search-plus"></i> 放大</button>
+                            <button class="btn"><i class="fas fa-search-minus"></i> 缩小</button>
+                            <button class="btn"><i class="fas fa-map-marker-alt"></i> 定位</button>
+                            <button class="btn"><i class="fas fa-layer-group"></i> 图层</button>
                         </div>
                     </div>
                     
-                    <div class="project-card">
-                        <div class="project-header">
-                            <div class="project-name">大型风电建设项目</div>
-                            <div class="project-status">进行中</div>
-                        </div>
-                        <div class="project-info">
-                            <div class="project-info-item">方案批复时间: 2023-03-10</div>
-                            <div class="project-info-item">监测时段: 2023-03-10 至 2025-03-10</div>
-                            <div class="project-info-item">建设单位: XX新能源有限公司</div>
-                            <div class="project-info-item">联系人: 王五</div>
-                            <div class="project-info-item">联系电话: 137****4321</div>
-                        </div>
+                    <div class="map-container">
+                        <i class="fas fa-map-marked-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <p>所有项目卫星地图展示区域</p>
+                        <p style="font-size: 12px; color: #999;">提示：地图上不同颜色标记代表不同项目，点击可查看详情</p>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- 图上展示 -->
-        <div id="map-display" class="content">
+        <!-- 监测与视频点位 -->
+        <div id="monitor-video" class="content">
             <div class="content-header">
-                <h2 class="content-title">图上展示</h2>
+                <h2 class="content-title">城市新区基础设施建设项目 - 监测与视频点位</h2>
                 <div class="content-actions">
-                    <button class="btn"><i class="fas fa-sync-alt"></i> 刷新地图</button>
-                    <button class="btn btn-outline"><i class="fas fa-download"></i> 导出地图</button>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>地图操作</label>
-                <div class="btn-group">
-                    <button class="btn"><i class="fas fa-search-plus"></i> 放大</button>
-                    <button class="btn"><i class="fas fa-search-minus"></i> 缩小</button>
-                    <button class="btn"><i class="fas fa-map-marker-alt"></i> 定位</button>
-                    <button class="btn"><i class="fas fa-layer-group"></i> 图层</button>
-                </div>
-            </div>
-            
-            <div class="map-container">
-                <i class="fas fa-map-marked-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
-                <p>所有项目卫星地图展示区域</p>
-                <p style="font-size: 12px; color: #999;">提示：地图上不同颜色标记代表不同项目，点击可查看详情</p>
-            </div>
-        </div>
-        
-        <!-- 监测点位 -->
-        <div id="monitor-points" class="content">
-            <div class="content-header">
-                <h2 class="content-title">城市新区基础设施建设项目 - 监测点位</h2>
-                <div class="content-actions">
-                    <button class="btn"><i class="fas fa-plus"></i> 添加点位</button>
+                    <button class="btn"><i class="fas fa-plus"></i> 新增点位</button>
                     <button class="btn btn-outline"><i class="fas fa-filter"></i> 筛选</button>
                 </div>
             </div>
             
-            <div class="map-container">
-                <i class="fas fa-map-marked-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
-                <p>监测点位地图展示区域</p>
-                <p style="font-size: 12px; color: #999;">提示：地图上绿色标记为监测点位，点击可查看详情</p>
-            </div>
-            
-            <div class="form-group">
-                <label>监测点位列表</label>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>点位名称</th>
-                            <th>监测对象</th>
-                            <th>监测指标</th>
-                            <th>点位照片</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>监测点1</td>
-                            <td>坡面</td>
-                            <td>泥沙含量、降雨量</td>
-                            <td><img src="https://via.placeholder.com/50" alt="点位照片" style="width: 50px; height: 30px;"></td>
-                            <td>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 查看</button>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-edit"></i> 编辑</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>监测点2</td>
-                            <td>沟道</td>
-                            <td>径流量、含沙量</td>
-                            <td><img src="https://via.placeholder.com/50" alt="点位照片" style="width: 50px; height: 30px;"></td>
-                            <td>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 查看</button>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-edit"></i> 编辑</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>监测点3</td>
-                            <td>弃渣场</td>
-                            <td>渣土量、防护情况</td>
-                            <td><img src="https://via.placeholder.com/50" alt="点位照片" style="width: 50px; height: 30px;"></td>
-                            <td>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 查看</button>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-edit"></i> 编辑</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <!-- 视频点位 -->
-        <div id="video-points" class="content">
-            <div class="content-header">
-                <h2 class="content-title">城市新区基础设施建设项目 - 视频点位</h2>
-                <div class="content-actions">
-                    <button class="btn"><i class="fas fa-plus"></i> 添加摄像头</button>
-                    <button class="btn btn-outline"><i class="fas fa-redo"></i> 刷新视频</button>
+            <div class="tab-container">
+                <ul class="tabs">
+                    <li class="tab active" data-tab="monitor-list">监测点位</li>
+                    <li class="tab" data-tab="video-list">视频点位</li>
+                    <li class="tab" data-tab="map-view">地图视图</li>
+                </ul>
+                
+                <div class="tab-content active" id="monitor-list">
+                    <div class="map-container">
+                        <i class="fas fa-map-marked-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <p>监测点位地图展示区域</p>
+                        <p style="font-size: 12px; color: #999;">提示：地图上绿色标记为监测点位，点击可查看详情</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>监测点位列表</label>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>点位名称</th>
+                                    <th>监测对象</th>
+                                    <th>监测指标</th>
+                                    <th>点位照片</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>监测点1</td>
+                                    <td>坡面</td>
+                                    <td>泥沙含量、降雨量</td>
+                                    <td><img src="https://via.placeholder.com/50" alt="点位照片" style="width: 50px; height: 30px;"></td>
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 查看</button>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-edit"></i> 编辑</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>监测点2</td>
+                                    <td>沟道</td>
+                                    <td>径流量、含沙量</td>
+                                    <td><img src="https://via.placeholder.com/50" alt="点位照片" style="width: 50px; height: 30px;"></td>
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 查看</button>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-edit"></i> 编辑</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>监测点3</td>
+                                    <td>弃渣场</td>
+                                    <td>渣土量、防护情况</td>
+                                    <td><img src="https://via.placeholder.com/50" alt="点位照片" style="width: 50px; height: 30px;"></td>
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-eye"></i> 查看</button>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-edit"></i> 编辑</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="map-container">
-                <i class="fas fa-video" style="font-size: 40px; margin-bottom: 10px;"></i>
-                <p>视频监控点位地图展示区域</p>
-                <p style="font-size: 12px; color: #999;">提示：地图上蓝色标记为视频监控点位，点击可查看实时视频</p>
-            </div>
-            
-            <div class="form-group">
-                <label>视频监控列表</label>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>摄像头名称</th>
-                            <th>安装位置</th>
-                            <th>监控区域</th>
-                            <th>视频预览</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>摄像头1</td>
-                            <td>项目入口</td>
-                            <td>施工主区域</td>
-                            <td><div style="width: 80px; height: 45px; background-color: #eee; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd;">视频预览</div></td>
-                            <td>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-play"></i> 实时查看</button>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-download"></i> 录像</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>摄像头2</td>
-                            <td>渣土堆放区</td>
-                            <td>渣土堆放场</td>
-                            <td><div style="width: 80px; height: 45px; background-color: #eee; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd;">视频预览</div></td>
-                            <td>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-play"></i> 实时查看</button>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-download"></i> 录像</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>摄像头3</td>
-                            <td>材料堆放区</td>
-                            <td>材料堆放场</td>
-                            <td><div style="width: 80px; height: 45px; background-color: #eee; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd;">视频预览</div></td>
-                            <td>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-play"></i> 实时查看</button>
-                                <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-download"></i> 录像</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                
+                <div class="tab-content" id="video-list">
+                    <div class="map-container">
+                        <i class="fas fa-video" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <p>视频监控点位地图展示区域</p>
+                        <p style="font-size: 12px; color: #999;">提示：地图上蓝色标记为视频监控点位，点击可查看实时视频</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>视频监控列表</label>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>摄像头名称</th>
+                                    <th>安装位置</th>
+                                    <th>监控区域</th>
+                                    <th>视频预览</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>摄像头1</td>
+                                    <td>项目入口</td>
+                                    <td>施工主区域</td>
+                                    <td><div style="width: 80px; height: 45px; background-color: #eee; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd;">视频预览</div></td>
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-play"></i> 实时查看</button>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-download"></i> 录像</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>摄像头2</td>
+                                    <td>渣土堆放区</td>
+                                    <td>渣土堆放场</td>
+                                    <td><div style="width: 80px; height: 45px; background-color: #eee; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd;">视频预览</div></td>
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-play"></i> 实时查看</button>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-download"></i> 录像</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>摄像头3</td>
+                                    <td>材料堆放区</td>
+                                    <td>材料堆放场</td>
+                                    <td><div style="width: 80px; height: 45px; background-color: #eee; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd;">视频预览</div></td>
+                                    <td>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-play"></i> 实时查看</button>
+                                        <button class="btn btn-outline" style="padding: 2px 8px;"><i class="fas fa-download"></i> 录像</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="map-view">
+                    <div class="form-group">
+                        <label>地图操作</label>
+                        <div class="btn-group">
+                            <button class="btn"><i class="fas fa-search-plus"></i> 放大</button>
+                            <button class="btn"><i class="fas fa-search-minus"></i> 缩小</button>
+                            <button class="btn"><i class="fas fa-map-marker-alt"></i> 定位</button>
+                            <button class="btn"><i class="fas fa-layer-group"></i> 图层</button>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container">
+                        <i class="fas fa-map-marked-alt" style="font-size: 40px; margin-bottom: 10px;"></i>
+                        <p>项目监测与视频点位地图展示区域</p>
+                        <p style="font-size: 12px; color: #999;">提示：地图上不同颜色标记代表监测点位和视频点位，点击可查看详情</p>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -871,6 +906,24 @@
                             break;
                     }
                     alert(message);
+                });
+            });
+            
+            // 标签页切换
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabSet = this.closest('.tab-container');
+                    const tabContents = tabSet.querySelectorAll('.tab-content');
+                    
+                    // 移除所有标签和内容的active类
+                    tabSet.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // 为当前点击的标签和对应内容添加active类
+                    this.classList.add('active');
+                    const contentId = this.getAttribute('data-tab');
+                    tabSet.querySelector('#' + contentId).classList.add('active');
                 });
             });
         });
